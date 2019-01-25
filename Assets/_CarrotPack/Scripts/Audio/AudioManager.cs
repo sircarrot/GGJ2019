@@ -38,6 +38,11 @@ namespace CarrotPack
                 bgmAudioSource = bgmManager.AddComponent<AudioSource>();
                 bgmManager.transform.parent = Toolbox.Instance.transform;
             }
+
+#if !ODIN_INSPECTOR
+            // Populate Dictionary
+            audioLibrary.InitLibrary();
+#endif
         }
 
         public void PlaySoundEffect(AudioClip audioClip = null)

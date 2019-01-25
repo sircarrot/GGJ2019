@@ -19,6 +19,11 @@ namespace CarrotPack
                 ValueLabel = "AudioClip")]
         [GUIColor(0.7f, 0.7f, 1)]
         public Dictionary<string, AudioClip> audioLibrary = new Dictionary<string, AudioClip>();
+    
+        public void InitLibrary()
+        {
+
+        }
     }
 }
 
@@ -34,6 +39,14 @@ namespace CarrotPack
         public List<AudioClip> audioList = new List<AudioClip>();
 
         [HideInInspector] public Dictionary<string, AudioClip> audioLibrary = new Dictionary<string, AudioClip>();
+
+        public void InitLibrary()
+        {
+            foreach(AudioClip audioClip in audioList)
+            {
+                audioLibrary.Add(audioClip.name, audioClip);
+            }
+        }
     }
 }
 
