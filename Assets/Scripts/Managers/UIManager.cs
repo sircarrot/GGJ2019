@@ -7,13 +7,16 @@ public class UIManager : MonoBehaviour, IManager {
 
     [SerializeField] private GameObject UIPrefab;
 
+    private Transform cameraTransform;
     private Transform CanvasTransform;
     private Transform playerTransform;
     private List<Transform> npcList = new List<Transform>();
+    private static float cameraSpeed = 0.1f; //0-1, 1 mean instant
 
     public void InitializeManager()
     {
         CanvasTransform = Instantiate(UIPrefab, gameObject.transform).transform;
+        this.CentralizerCamera();
     }
 
     public void SetPlayerTransform(Transform playerTransform)
@@ -22,12 +25,26 @@ public class UIManager : MonoBehaviour, IManager {
     }
 	
 	// Update is called once per frame
-	void Update () {
-
+	void Update () 
+    {
         Debug.Log(GetClosestNPC());
-
-
 	}
+
+    void FixedUpdate()
+    {
+        this.UpdateCamera();
+    }
+
+    private void UpdateCamera()
+    {
+        this.cameraTransform.position = this.playerTransform.position * UIManager.cameraSpeed + this.cameraTransform.position * (1 - UIManager.cameraSpeed);
+        this.cameraTransform.position = this.cameraTransform.position.WithZ(-10f);
+    }
+    public void CentralizerCamera()
+    {
+        this.cameraTransform = GameObject.Find("Main Camera").transform;
+        this.cameraTransform.position = this.playerTransform.position.WithZ(-10f);
+    }
 
     public void UpdateNPCList(List<Transform> npcList)
     {

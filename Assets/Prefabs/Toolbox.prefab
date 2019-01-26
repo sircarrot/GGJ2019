@@ -20,11 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4315354714632288}
   - component: {fileID: 114900484809195302}
+  - component: {fileID: 114033626934727438}
   - component: {fileID: 114837392790032106}
   - component: {fileID: 114396955509165834}
   - component: {fileID: 114973724452715556}
   - component: {fileID: 114187099993937496}
-  - component: {fileID: 114033626934727438}
   m_Layer: 0
   m_Name: Toolbox
   m_TagString: Untagged
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88211ae856631f4491e32a3199f16fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 114033626934727438}
 --- !u!114 &114396955509165834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,4 +116,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIPrefab: {fileID: 1942668232824486, guid: 5d873e3ea58a5db468273dcd74f89f9d, type: 2}
-  npcList: []
