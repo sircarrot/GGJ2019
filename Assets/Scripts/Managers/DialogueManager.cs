@@ -43,4 +43,17 @@ public class DialogueManager : MonoBehaviour, IManager
     {
         PopulateDictionary();
     }    
+
+    public string GetDialogue(string id)
+    {
+        if(dialogueDictionary.ContainsKey(id))
+        {
+            return dialogueDictionary[id];
+        }
+        else
+        {
+            return "";
+        }
+
+    }
 }
