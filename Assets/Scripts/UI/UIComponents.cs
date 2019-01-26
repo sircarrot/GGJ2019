@@ -6,4 +6,5 @@ using UnityEngine.UI;
 public class UIComponents : MonoBehaviour {
 
     public Image fadeImage;
+    public Image npcArrow;
 }
