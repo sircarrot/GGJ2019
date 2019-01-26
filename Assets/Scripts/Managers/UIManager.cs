@@ -10,18 +10,26 @@ public class UIManager : MonoBehaviour, IManager {
     [SerializeField] private GameObject UIPrefab;
 
     private UIComponents uiComponents;
+    private Transform CanvasTransform;
 
     [Header("Fade Effect")]
     [SerializeField] private static float fadingTime = 0.5f;
-
     private Camera cam;
     private Transform cameraTransform;
     private Bounds cameraBox;
+    private static float cameraSpeed = 0.1f; //0-1, 1 mean instant
 
-    private Transform CanvasTransform;
+    [Header("Arrow Animation")]
     private Transform playerTransform;
     private List<Transform> npcList = new List<Transform>();
-    private static float cameraSpeed = 0.1f; //0-1, 1 mean instant
+
+    [Header("Text Animation")]
+    [SerializeField] private float textSpeed = 10f;
+    [SerializeField] private float textLetterPause = 1f;
+    private bool currentlyOnDialogue = false;
+    private bool displayingText = false;
+    private IEnumerator DisplayTextCoroutine;
+    private string currentDialogueText;
 
     public void InitializeManager()
     {
@@ -156,15 +164,61 @@ public class UIManager : MonoBehaviour, IManager {
     }
     #endregion Arrow NPC
 
-    public void OpenDialogue()
+    #region Dialogue
+    public void OpenDialogue(string dialogueText)
     {
+        if(currentlyOnDialogue)
+        {
+            Debug.LogWarning("Something wrong with code flow!");
+            return;
+        }
 
+        uiComponents.dialogueBubble.gameObject.SetActive(true);
+        currentlyOnDialogue = true;
+        NextDialogue(dialogueText);
+    }
+
+    public bool NextDialogue(string dialogueText)
+    {
+        if(displayingText)
+        {
+            if (DisplayTextCoroutine != null) StopCoroutine(DisplayTextCoroutine);
+            uiComponents.dialogueTextBox.text = currentDialogueText;
+            displayingText = false;
+            return false;
+        }
+
+        DisplayTextCoroutine = TextAnimation(dialogueText);
+        StartCoroutine(DisplayTextCoroutine);
+        return true;
     }
 
     public void CloseDialogue()
     {
-
+        uiComponents.dialogueBubble.gameObject.SetActive(false);
+        currentlyOnDialogue = false;
     }
+
+    private IEnumerator TextAnimation(string dialogueText)
+    {
+        if (!displayingText)
+        {
+            displayingText = true;
+
+            currentDialogueText = dialogueText;
+
+            uiComponents.dialogueTextBox.text = "";
+            foreach (char letter in dialogueText)
+            {
+                uiComponents.dialogueTextBox.text += letter;
+
+                yield return new WaitForSeconds(textLetterPause / textSpeed);
+            }
+
+            displayingText = false;
+        }
+    }
+    #endregion Dialogue
 
     public void FadeScreenTransition(System.Action action = null)
     {
