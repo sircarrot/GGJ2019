@@ -15,9 +15,9 @@ public class InputManager : MonoBehaviour, IManager {
 	// Update is called once per frame
 	void Update ()
     {
-		if(Input.GetKey(KeyCode.Space))
+		if(Input.GetKeyDown(KeyCode.Space))
         {
-            gameManager.ReceiveInput(KeyCode.Space);
+            gameManager.ReceiveInput(KeyCode.Space, true);
         }
 
         if(Input.GetKey(KeyCode.A))

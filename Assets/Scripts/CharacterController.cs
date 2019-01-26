@@ -10,16 +10,22 @@ public class CharacterController : MonoBehaviour
 	private static float groundCheckTolerance = 0.1f;
 	private Rigidbody2D rigidbody2D;
 	private LayerMask groundLayer;
+    private int jumpCount;
     void Start()
     {
 		this.groundLayer = 1 << LayerMask.NameToLayer("Terrain");
 		this.rigidbody2D = this.GetComponent<Rigidbody2D>();
+        this.jumpCount = 0;
     }
 
     void Update()
     {
 		this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(0);
 
+		if(Physics2D.Raycast(this.transform.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider != null)
+		{
+            this.jumpCount = 0;
+        }
 		//Debug.DrawRay(this.transform.position, Vector2.down, Color.green);
     }
 
@@ -34,11 +40,20 @@ public class CharacterController : MonoBehaviour
 
     public void Jump()
 	{
-		if(Physics2D.Raycast(this.transform.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider != null)
+		if(!Physics2D.Raycast(this.transform.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider != null)
 		{
-		    this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithY(0);
-			this.rigidbody2D.AddForce(new Vector2(0f, this.jumpForce));
+            if(this.jumpCount == 0)
+            {
+                this.jumpCount++;
+            }
+            else
+            {
+                return;
+            }
 		}
+        
+        this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithY(0);
+        this.rigidbody2D.AddForce(new Vector2(0f, this.jumpForce));
 	}
 }
 

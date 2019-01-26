@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour, IManager
         //}).Start();
     }
 
-    public void ReceiveInput(KeyCode keyCode)
+    public void ReceiveInput(KeyCode keyCode, bool isKeyDown = false)
     {
         if (currentGameState != GameState.Platformer) return;
         
@@ -80,7 +80,10 @@ public class GameManager : MonoBehaviour, IManager
                 break;
 
             case KeyCode.Space:
-                characterController.Jump();
+                if(isKeyDown)
+                {
+                    characterController.Jump();
+                }
                 break;
 
                 //Interact
