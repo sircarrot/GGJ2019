@@ -48,6 +48,7 @@ public class UIManager : MonoBehaviour, IManager {
         UpdateCamera();
     }
 
+    #region Camera
     private void InitializeCamera()
     {
         if (cam == null) { cam = GameObject.Find("Main Camera").GetComponent<Camera>(); }
@@ -65,7 +66,9 @@ public class UIManager : MonoBehaviour, IManager {
         InitializeCamera();
         cameraTransform.position = playerTransform.position.WithZ(-10f);
     }
+    #endregion
 
+    #region Arrow NPC
     public void UpdateArrowPosition()
     {
         Transform npc = GetClosestNPC();
@@ -90,7 +93,6 @@ public class UIManager : MonoBehaviour, IManager {
         multiplier -= 100f;
         uiComponents.npcArrow.transform.position = cam.WorldToScreenPoint(cam.transform.position);
         uiComponents.npcArrow.transform.position += direction * multiplier;
-
     }
 
     public void UpdateNPCList(List<Transform> npcList)
@@ -124,6 +126,17 @@ public class UIManager : MonoBehaviour, IManager {
         }
 
         return closestNPC;
+    }
+    #endregion Arrow NPC
+
+    public void OpenDialogue()
+    {
+
+    }
+
+    public void CloseDialogue()
+    {
+
     }
 
     public void FadeScreenTransition(System.Action action = null)

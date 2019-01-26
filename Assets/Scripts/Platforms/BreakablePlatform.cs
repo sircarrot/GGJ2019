@@ -14,7 +14,6 @@ public class BreakablePlatform : MonoBehaviour {
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("collide");
         if (coroutineRunning) { return; } // Check if coroutine is running
         if (collision.gameObject.tag != "Player") { return; } // Check if player is colliding
 
