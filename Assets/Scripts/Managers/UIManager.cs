@@ -27,6 +27,9 @@ public class UIManager : MonoBehaviour, IManager {
         CanvasTransform = Instantiate(UIPrefab, gameObject.transform).transform;
         uiComponents = CanvasTransform.GetComponent<UIComponents>();
         CentralizerCamera();
+         
+        DontDestroyOnLoad(this.cameraTransform.gameObject);
+        DontDestroyOnLoad(this.CanvasTransform.gameObject);
     }
 
     public void SetPlayerTransform(Transform playerTransform)
