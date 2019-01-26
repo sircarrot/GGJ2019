@@ -13,6 +13,22 @@ public class GameManager : MonoBehaviour, IManager
     {
         uiManager = Toolbox.Instance.GetManager<UIManager>();
         uiManager.SetPlayerTransform(characterController.transform);
+
+        uiManager.UpdateNPCList(FindAllNPC());
+    }
+
+    public List<Transform> FindAllNPC()
+    {
+        GameObject[] objectArray = GameObject.FindGameObjectsWithTag("NPC");
+        List<Transform> transformList = new List<Transform>();
+
+        foreach(GameObject objectTag in objectArray)
+        {
+            transformList.Add(objectTag.transform);
+        }
+
+        Debug.Log("NPC Size list: " + transformList.Count);
+        return transformList;
     }
 
     public void ChangeScene()

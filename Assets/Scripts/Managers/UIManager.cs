@@ -13,23 +13,18 @@ public class UIManager : MonoBehaviour, IManager {
 
     public void InitializeManager()
     {
-        CanvasTransform = Instantiate(UIPrefab).transform;
+        CanvasTransform = Instantiate(UIPrefab, gameObject.transform).transform;
     }
 
     public void SetPlayerTransform(Transform playerTransform)
     {
         this.playerTransform = playerTransform;
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
-		
 
+        Debug.Log(GetClosestNPC());
 
 
 	}
@@ -37,6 +32,8 @@ public class UIManager : MonoBehaviour, IManager {
     public void UpdateNPCList(List<Transform> npcList)
     {
         this.npcList = new List<Transform>(npcList);
+        Debug.Log("NPC Size list: " + this.npcList.Count);
+
     }
 
     public Vector3 GetClosestNPC()
@@ -45,7 +42,7 @@ public class UIManager : MonoBehaviour, IManager {
         bool initialized = false;
         foreach(Transform npc in npcList)
         {
-            if (initialized)
+            if (!initialized)
             {
                 distanceVector = npc.position - playerTransform.position;
                 initialized = true;
