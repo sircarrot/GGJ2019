@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour {
 
-    public string name;
+    public string npcName;
     public int currentDialogueSequence = 0;
     public int loopSequenceStart = 4;
 
