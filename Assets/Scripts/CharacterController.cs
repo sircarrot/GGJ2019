@@ -40,7 +40,7 @@ public class CharacterController : MonoBehaviour
 
     public void Jump()
 	{
-		if(!Physics2D.Raycast(this.transform.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider != null)
+		if(Physics2D.Raycast(this.transform.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider == null)
 		{
             if(this.jumpCount == 0)
             {
