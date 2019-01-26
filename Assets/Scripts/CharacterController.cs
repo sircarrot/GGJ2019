@@ -19,18 +19,7 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
 		this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(0);
-		//if(Input.GetKeyDown(KeyCode.W))
-		//{
-		//	this.Jump();
-		//}
-		//if(Input.GetKey(KeyCode.A))
-		//{
-		//	this.MoveLeft();
-		//}
-		//if(Input.GetKey(KeyCode.D))
-		//{
-		//	this.MoveRight();
-		//}
+
 		//Debug.DrawRay(this.transform.position, Vector2.down, Color.green);
     }
 
@@ -42,24 +31,6 @@ public class CharacterController : MonoBehaviour
             this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(this.maxSpeed * (int) moveDirection);
         }
     }
-
- //   public void MoveLeft()
-	//{
-	//	this.rigidbody2D.AddForce(new Vector2(-this.moveForce, 0f));
-	//	if(this.rigidbody2D.velocity.x < -this.maxSpeed)
-	//	{
-	//		this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(-this.maxSpeed);
-	//	}
-	//}
-
- //   public void MoveRight()
-	//{
-	//	this.rigidbody2D.AddForce(new Vector2(this.moveForce, 0f));
-	//	if(this.rigidbody2D.velocity.x > this.maxSpeed)
-	//	{
-	//		this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(this.maxSpeed);
-	//	}
-	//}
 
     public void Jump()
 	{

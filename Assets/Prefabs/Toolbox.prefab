@@ -22,6 +22,9 @@ GameObject:
   - component: {fileID: 114900484809195302}
   - component: {fileID: 114837392790032106}
   - component: {fileID: 114396955509165834}
+  - component: {fileID: 114973724452715556}
+  - component: {fileID: 114187099993937496}
+  - component: {fileID: 114033626934727438}
   m_Layer: 0
   m_Name: Toolbox
   m_TagString: Untagged
@@ -42,6 +45,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114033626934727438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1522117266327764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b7923bd490395469bb4804be324ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterController: {fileID: 0}
+--- !u!114 &114187099993937496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1522117266327764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b88211ae856631f4491e32a3199f16fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
 --- !u!114 &114396955509165834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf5553c5f3c0e649a6ad0eae7e240ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DialogueScriptableObject: {fileID: 0}
+  DialogueCSV: {fileID: 0}
 --- !u!114 &114837392790032106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,3 +104,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5a613224734d743af7f895448ad724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114973724452715556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1522117266327764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164a66fce97fe9c4ca9efcf74df45fa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIPrefab: {fileID: 1942668232824486, guid: 5d873e3ea58a5db468273dcd74f89f9d, type: 2}
+  npcList: []
