@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
 	public float maxSpeed = 0.5f;
-	public float jumpForce = 200f;
+	public float jumpForce = 400f;
 	public float moveForce = 200f;
 	private static float groundCheckTolerance = 0.1f;
 	private Rigidbody2D rigidbody2D;
@@ -36,6 +36,7 @@ public class CharacterController : MonoBehaviour
 	{
 		if(Physics2D.Raycast(this.transform.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider != null)
 		{
+		    this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithY(0);
 			this.rigidbody2D.AddForce(new Vector2(0f, this.jumpForce));
 		}
 	}

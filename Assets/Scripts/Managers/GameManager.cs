@@ -18,11 +18,11 @@ public class GameManager : MonoBehaviour, IManager
     {
         uiManager = Toolbox.Instance.GetManager<UIManager>();
         uiManager.SetPlayerTransform(characterController.transform);
+        uiManager.UpdateNPCList(FindAllNPC());
+
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         fadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
         DontDestroyOnLoad(canvas.gameObject);
-
-        uiManager.UpdateNPCList(FindAllNPC());
     }
 
     public List<Transform> FindAllNPC()
