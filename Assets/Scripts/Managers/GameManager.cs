@@ -12,12 +12,15 @@ public class GameManager : MonoBehaviour, IManager
     private UIManager uiManager;
 
     [Header("Talk to NPC")]
+    private DialogueManager dialogueManager;
     private NPCController npcInRange = null;
     private int lineNumber = 1;
 
     public void InitializeManager()
     {
+        dialogueManager = Toolbox.Instance.GetManager<DialogueManager>();
         uiManager = Toolbox.Instance.GetManager<UIManager>();
+
         uiManager.SetPlayerTransform(characterController.transform);
         uiManager.UpdateNPCList(FindAllNPC());
         SceneManager.sceneLoaded += (Scene, loadSceneMode) => 
@@ -59,7 +62,15 @@ public class GameManager : MonoBehaviour, IManager
     {
         if (currentGameState == GameState.Dialogue)
         {
-
+            string dialogue = TryToGetDialogue();
+            if(dialogue != "")
+            {
+                uiManager.NextDialogue(dialogue);
+            }
+            else
+            {
+                EndTalkToNPC();
+            }
             return;
         }
 
@@ -105,18 +116,52 @@ public class GameManager : MonoBehaviour, IManager
     {
         Debug.Log(npcInRange);
 
-        int currentDialogueSequence = npcInRange.currentDialogueSequence;
-        string dialogueID = npcInRange.npcName + "_" + currentDialogueSequence.ToString() + "_" + lineNumber;
+        string dialogue = TryToGetDialogue();
 
+        if (dialogue == "")
+        {
+            EndTalkToNPC();
+            return;
+        }
 
+        uiManager.OpenDialogue(dialogue);
         currentGameState = GameState.Dialogue;
     }
 
     public void EndTalkToNPC()
     {
-
-
+        uiManager.CloseDialogue();
+        lineNumber = 1;
+        npcInRange.currentDialogueSequence++;
         currentGameState = GameState.Platformer;
+    }
+
+    public string TryToGetDialogue(bool repeat = false)
+    {
+        int currentDialogueSequence = npcInRange.currentDialogueSequence;
+        string dialogueID = npcInRange.npcName + "_" + currentDialogueSequence.ToString() + "_" + lineNumber;
+
+        string dialogue = dialogueManager.GetDialogue(dialogueID);
+        if (dialogue == "")
+        {
+            // End of a sequence
+            if(lineNumber != 1)
+            {
+                return "";
+            }
+            // Go back to first loop
+            currentDialogueSequence = npcInRange.loopSequenceStart;
+            dialogue = TryToGetDialogue();
+
+            if(dialogue == "")
+            {
+                Debug.Log("Dialogue id doesn't exist: " + dialogueID);
+            }
+
+            return dialogue;
+        }
+
+        return dialogue;
     }
 
     public enum GameState
