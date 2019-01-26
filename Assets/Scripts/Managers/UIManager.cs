@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CarrotPack;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour, IManager {
 
@@ -15,7 +16,7 @@ public class UIManager : MonoBehaviour, IManager {
 
     private Camera cam;
     private Transform cameraTransform;
-
+    private Bounds cameraBox;
 
     private Transform CanvasTransform;
     private Transform playerTransform;
@@ -27,7 +28,13 @@ public class UIManager : MonoBehaviour, IManager {
         CanvasTransform = Instantiate(UIPrefab, gameObject.transform).transform;
         uiComponents = CanvasTransform.GetComponent<UIComponents>();
         CentralizerCamera();
+        UpdateCameraBox();
          
+        SceneManager.sceneLoaded += (Scene, loadSceneMode) => 
+        {
+            CentralizerCamera();
+            UpdateCameraBox();
+        };
         DontDestroyOnLoad(this.cameraTransform.gameObject);
         DontDestroyOnLoad(this.CanvasTransform.gameObject);
     }
@@ -59,12 +66,33 @@ public class UIManager : MonoBehaviour, IManager {
     {
         cameraTransform.position = playerTransform.position * UIManager.cameraSpeed + cameraTransform.position * (1 - UIManager.cameraSpeed);
         cameraTransform.position = cameraTransform.position.WithZ(-10f);
+        if(cameraTransform.position.x < (cameraBox.min.x + cam.orthographicSize * cam.aspect))
+        {
+            cameraTransform.position = cameraTransform.position.WithX(cameraBox.min.x + cam.orthographicSize * cam.aspect);
+        }
+        if(cameraTransform.position.y < (cameraBox.min.y + cam.orthographicSize))
+        {
+            cameraTransform.position = cameraTransform.position.WithY(cameraBox.min.y + cam.orthographicSize);
+        }
+        if(cameraTransform.position.x > (cameraBox.max.x - cam.orthographicSize * cam.aspect))
+        {
+            cameraTransform.position = cameraTransform.position.WithX(cameraBox.max.x - cam.orthographicSize * cam.aspect);
+        }
+        if(cameraTransform.position.y > (cameraBox.max.y - cam.orthographicSize))
+        {
+            cameraTransform.position = cameraTransform.position.WithY(cameraBox.max.y - cam.orthographicSize);
+        }
     }
 
     public void CentralizerCamera()
     {
         InitializeCamera();
         cameraTransform.position = playerTransform.position.WithZ(-10f);
+    }
+
+    private void UpdateCameraBox()
+    {
+        cameraBox = GameObject.Find("CameraBox").GetComponent<Collider2D>().bounds;
     }
     #endregion
 
