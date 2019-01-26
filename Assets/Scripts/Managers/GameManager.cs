@@ -7,11 +7,16 @@ public class GameManager : MonoBehaviour, IManager
 {
     [SerializeField] private CharacterController characterController;
     private GameState currentGameState = GameState.Platformer;
-
+    private UIManager uiManager;
 
     public void InitializeManager()
     {
+        uiManager = Toolbox.Instance.GetManager<UIManager>();
+        uiManager.SetPlayerTransform(characterController.transform);
+    }
 
+    public void ChangeScene()
+    {
 
     }
 
@@ -40,12 +45,6 @@ public class GameManager : MonoBehaviour, IManager
 
     }
 
-
-
-    public void ChangeScene()
-    {
-
-    }
 
     public enum GameState
     {
