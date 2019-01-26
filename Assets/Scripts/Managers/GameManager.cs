@@ -16,6 +16,12 @@ public class GameManager : MonoBehaviour, IManager
         uiManager = Toolbox.Instance.GetManager<UIManager>();
         uiManager.SetPlayerTransform(characterController.transform);
         uiManager.UpdateNPCList(FindAllNPC());
+        SceneManager.sceneLoaded += (Scene, loadSceneMode) => 
+        {
+            uiManager.UpdateNPCList(FindAllNPC());
+        };
+
+        DontDestroyOnLoad(characterController.gameObject);
     }
 
     public List<Transform> FindAllNPC()
@@ -32,12 +38,16 @@ public class GameManager : MonoBehaviour, IManager
         return transformList;
     }
 
-    public void ChangeScene(string target)
+    public void ChangeScene(string targetScene, string targetAnchor)
     {
         //fade in
         uiManager.FadeScreenTransition(() =>
         {
-            SceneManager.LoadScene(target);
+            SceneManager.LoadScene(targetScene);
+            this.RunOnNextUpdate(() => 
+            {
+                characterController.transform.position = GameObject.Find(targetAnchor).transform.position;
+            });
         });
         //fadeImage.enabled = true;
         //this.Chain().TweenLinear((a) => 
@@ -79,7 +89,6 @@ public class GameManager : MonoBehaviour, IManager
         }
 
     }
-
 
     public enum GameState
     {

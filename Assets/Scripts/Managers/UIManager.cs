@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour, IManager {
     private UIComponents uiComponents;
 
     [Header("Fade Effect")]
-    [SerializeField] private static float fadingTime = 1f;
+    [SerializeField] private static float fadingTime = 0.5f;
 
     private Transform cameraTransform;
     private Transform CanvasTransform;
@@ -22,7 +22,11 @@ public class UIManager : MonoBehaviour, IManager {
     public void InitializeManager()
     {
         CanvasTransform = Instantiate(UIPrefab, gameObject.transform).transform;
+        this.uiComponents = this.CanvasTransform.gameObject.GetComponent<UIComponents>();
         this.CentralizerCamera();
+
+        DontDestroyOnLoad(this.cameraTransform.gameObject);
+        DontDestroyOnLoad(this.CanvasTransform.gameObject);
     }
 
     public void SetPlayerTransform(Transform playerTransform)
