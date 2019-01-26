@@ -13,7 +13,10 @@ public class UIManager : MonoBehaviour, IManager {
     [Header("Fade Effect")]
     [SerializeField] private static float fadingTime = 1f;
 
+    private Camera cam;
     private Transform cameraTransform;
+
+
     private Transform CanvasTransform;
     private Transform playerTransform;
     private List<Transform> npcList = new List<Transform>();
@@ -22,7 +25,8 @@ public class UIManager : MonoBehaviour, IManager {
     public void InitializeManager()
     {
         CanvasTransform = Instantiate(UIPrefab, gameObject.transform).transform;
-        this.CentralizerCamera();
+        uiComponents = CanvasTransform.GetComponent<UIComponents>();
+        CentralizerCamera();
     }
 
     public void SetPlayerTransform(Transform playerTransform)
@@ -33,23 +37,57 @@ public class UIManager : MonoBehaviour, IManager {
 	// Update is called once per frame
 	void Update () 
     {
-        Debug.Log(GetClosestNPC());
-	}
+        UpdateArrowPosition();
+    }
 
     void FixedUpdate()
     {
-        this.UpdateCamera();
+        UpdateCamera();
+    }
+
+    private void InitializeCamera()
+    {
+        if (cam == null) { cam = GameObject.Find("Main Camera").GetComponent<Camera>(); }
+        cameraTransform = cam.transform;
     }
 
     private void UpdateCamera()
     {
-        this.cameraTransform.position = this.playerTransform.position * UIManager.cameraSpeed + this.cameraTransform.position * (1 - UIManager.cameraSpeed);
-        this.cameraTransform.position = this.cameraTransform.position.WithZ(-10f);
+        cameraTransform.position = playerTransform.position * UIManager.cameraSpeed + cameraTransform.position * (1 - UIManager.cameraSpeed);
+        cameraTransform.position = cameraTransform.position.WithZ(-10f);
     }
+
     public void CentralizerCamera()
     {
-        this.cameraTransform = GameObject.Find("Main Camera").transform;
-        this.cameraTransform.position = this.playerTransform.position.WithZ(-10f);
+        InitializeCamera();
+        cameraTransform.position = playerTransform.position.WithZ(-10f);
+    }
+
+    public void UpdateArrowPosition()
+    {
+        Transform npc = GetClosestNPC();
+        if (npc == null)
+        {
+            uiComponents.npcArrow.gameObject.SetActive(false);
+            return;
+        }
+        Vector3 screenPoint = cam.WorldToViewportPoint(npc.position);
+        if (screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
+        {
+            uiComponents.npcArrow.gameObject.SetActive(false);
+            return;
+        }
+
+        uiComponents.npcArrow.gameObject.SetActive(true);
+        Vector3 direction = (npc.position - playerTransform.position).normalized;
+        //uiComponents.npcArrow.transform.position = cam.WorldToScreenPoint(playerTransform.position);
+        //uiComponents.npcArrow.transform.position += direction * 500;
+
+        float multiplier = Mathf.Min(Mathf.Abs(1920/direction.x), Mathf.Abs(920/direction.y)) / 2;
+        multiplier -= 100f;
+        uiComponents.npcArrow.transform.position = cam.WorldToScreenPoint(cam.transform.position);
+        uiComponents.npcArrow.transform.position += direction * multiplier;
+
     }
 
     public void UpdateNPCList(List<Transform> npcList)
@@ -58,9 +96,10 @@ public class UIManager : MonoBehaviour, IManager {
         Debug.Log("NPC Size list: " + this.npcList.Count);
     }
 
-    public Vector3 GetClosestNPC()
+    public Transform GetClosestNPC()
     {
         Vector3 distanceVector = Vector3.zero;
+        Transform closestNPC = null;
         bool initialized = false;
         foreach(Transform npc in npcList)
         {
@@ -68,6 +107,7 @@ public class UIManager : MonoBehaviour, IManager {
             {
                 distanceVector = npc.position - playerTransform.position;
                 initialized = true;
+                closestNPC = npc;
             }
             else
             {
@@ -75,11 +115,12 @@ public class UIManager : MonoBehaviour, IManager {
                 if(tempDistanceVector.magnitude < distanceVector.magnitude)
                 {
                     distanceVector = tempDistanceVector;
+                    closestNPC = npc;
                 }
             }
         }
 
-        return distanceVector;
+        return closestNPC;
     }
 
     public void FadeScreenTransition(System.Action action = null)
