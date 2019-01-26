@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour, IManager {
     private UIComponents uiComponents;
 
     [Header("Fade Effect")]
-    [SerializeField] private static float fadingTime = 1f;
+    [SerializeField] private static float fadingTime = 0.5f;
 
     private Camera cam;
     private Transform cameraTransform;
