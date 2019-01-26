@@ -150,6 +150,12 @@ public class GameManager : MonoBehaviour, IManager
     public string TryToGetDialogue(bool repeat = false)
     {
         int currentDialogueSequence = npcInRange.currentDialogueSequence;
+        if (repeat)
+        {
+            currentDialogueSequence = npcInRange.loopSequenceStart;
+            npcInRange.currentDialogueSequence = npcInRange.loopSequenceStart;
+        }
+
         string dialogueID = npcInRange.npcName + "_" + currentDialogueSequence.ToString() + "_" + lineNumber;
 
         string dialogue = dialogueManager.GetDialogue(dialogueID);
@@ -161,8 +167,8 @@ public class GameManager : MonoBehaviour, IManager
             {
                 return "";
             }
+
             // Go back to first loop
-            currentDialogueSequence = npcInRange.loopSequenceStart;
             dialogue = TryToGetDialogue(true);
 
             if(dialogue == "")
