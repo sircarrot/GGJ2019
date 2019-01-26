@@ -8,6 +8,9 @@ public class DialogueManager : MonoBehaviour, IManager
     [SerializeField] private TextAsset DialogueCSV;
     private Dictionary<string, string> dialogueDictionary = new Dictionary<string, string>();
 
+    private bool dialogueProgress = false;
+    private bool displayingText = false;
+
     private void PopulateDictionary()
     {
         if (DialogueCSV == null)
@@ -39,11 +42,5 @@ public class DialogueManager : MonoBehaviour, IManager
     public void InitializeManager()
     {
         PopulateDictionary();
-    }
-
-
-
-
-
-
+    }    
 }

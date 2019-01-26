@@ -7,4 +7,6 @@ public class UIComponents : MonoBehaviour {
 
     public Image fadeImage;
     public Image npcArrow;
+    public Image dialogueBubble;
+    public Text dialogueTextBox;
 }

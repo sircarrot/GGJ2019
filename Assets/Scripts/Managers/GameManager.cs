@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour, IManager
     [SerializeField] private CharacterController characterController;
     private GameState currentGameState = GameState.Platformer;
     private UIManager uiManager;
+
+    [Header("Talk to NPC")]
     private NPCController npcInRange = null;
+    private int lineNumber = 1;
 
     public void InitializeManager()
     {
@@ -54,9 +57,13 @@ public class GameManager : MonoBehaviour, IManager
 
     public void ReceiveInput(KeyCode keyCode, bool isKeyDown = false)
     {
-        if (currentGameState != GameState.Platformer) return;
-        
-        switch(keyCode)
+        if (currentGameState == GameState.Dialogue)
+        {
+
+            return;
+        }
+
+        switch (keyCode)
         {
             case KeyCode.A:
                 characterController.MoveCharacter(MoveDirection.Left);
@@ -77,7 +84,7 @@ public class GameManager : MonoBehaviour, IManager
             case KeyCode.F:
                 if(npcInRange != null)
                 {
-                    Debug.Log(npcInRange.npcName);
+                    TalkToNPC();
                 }
                 break;
         }
@@ -92,6 +99,24 @@ public class GameManager : MonoBehaviour, IManager
     public void RemoveNPC()
     {
         npcInRange = null;
+    }
+
+    public void TalkToNPC()
+    {
+        Debug.Log(npcInRange);
+
+        int currentDialogueSequence = npcInRange.currentDialogueSequence;
+        string dialogueID = npcInRange.npcName + "_" + currentDialogueSequence.ToString() + "_" + lineNumber;
+
+
+        currentGameState = GameState.Dialogue;
+    }
+
+    public void EndTalkToNPC()
+    {
+
+
+        currentGameState = GameState.Platformer;
     }
 
     public enum GameState
