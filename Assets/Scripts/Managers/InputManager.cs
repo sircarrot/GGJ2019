@@ -30,7 +30,7 @@ public class InputManager : MonoBehaviour, IManager {
             gameManager.ReceiveInput(KeyCode.D);
         }
 
-        if (Input.GetKey(KeyCode.F)) // Interact
+        if (Input.GetKeyDown(KeyCode.F)) // Interact
         {
             gameManager.ReceiveInput(KeyCode.F);
         }

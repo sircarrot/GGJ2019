@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour, IManager
     [SerializeField] private CharacterController characterController;
     private GameState currentGameState = GameState.Platformer;
     private UIManager uiManager;
+    private NPCController npcInRange = null;
 
     public void InitializeManager()
     {
@@ -49,20 +50,6 @@ public class GameManager : MonoBehaviour, IManager
                 characterController.transform.position = GameObject.Find(targetAnchor).transform.position;
             });
         });
-        //fadeImage.enabled = true;
-        //this.Chain().TweenLinear((a) => 
-        //{
-        //    fadeImage.color = Color.Lerp(Color.clear, Color.black, a);
-        //}, GameManager.fadingTime, 0f, 1f).Run(() => 
-        //{
-        //    SceneManager.LoadScene(target);
-        //}).TweenLinear((a) => 
-        //{
-        //    fadeImage.color = Color.Lerp(Color.black, Color.clear, a);
-        //}, GameManager.fadingTime, 0f, 1f).Run(() => 
-        //{
-        //    fadeImage.enabled = false;
-        //}).Start();
     }
 
     public void ReceiveInput(KeyCode keyCode, bool isKeyDown = false)
@@ -88,9 +75,23 @@ public class GameManager : MonoBehaviour, IManager
 
                 //Interact
             case KeyCode.F:
+                if(npcInRange != null)
+                {
+                    Debug.Log(npcInRange.npcName);
+                }
                 break;
         }
 
+    }
+
+    public void SetNPC(NPCController npc)
+    {
+        npcInRange = npc;
+    }
+
+    public void RemoveNPC()
+    {
+        npcInRange = null;
     }
 
     public enum GameState

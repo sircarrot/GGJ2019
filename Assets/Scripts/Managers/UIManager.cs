@@ -36,7 +36,6 @@ public class UIManager : MonoBehaviour, IManager {
             UpdateCameraBox();
         };
         DontDestroyOnLoad(this.cameraTransform.gameObject);
-        DontDestroyOnLoad(this.CanvasTransform.gameObject);
     }
 
     public void SetPlayerTransform(Transform playerTransform)
