@@ -1,11 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using CarrotPack;
 
 public class UIManager : MonoBehaviour, IManager {
 
     [SerializeField] private GameObject UIPrefab;
+
+    private UIComponents uiComponents;
+
+    [Header("Fade Effect")]
+    private static float fadingTime = 1f;
+
 
     private Transform cameraTransform;
     private Transform CanvasTransform;
@@ -50,7 +57,6 @@ public class UIManager : MonoBehaviour, IManager {
     {
         this.npcList = new List<Transform>(npcList);
         Debug.Log("NPC Size list: " + this.npcList.Count);
-
     }
 
     public Vector3 GetClosestNPC()
@@ -75,6 +81,26 @@ public class UIManager : MonoBehaviour, IManager {
         }
 
         return distanceVector;
+    }
+
+    public void FadeScreenTransition(System.Action action = null)
+    {
+        //fade in
+        uiComponents.fadeImage.enabled = true;
+        this.Chain().TweenLinear((a) =>
+        {
+            uiComponents.fadeImage.color = Color.Lerp(Color.clear, Color.black, a);
+        }, fadingTime, 0f, 1f).Run(() =>
+        {
+            action.Invoke();
+            //SceneManager.LoadScene(target);
+        }).TweenLinear((a) =>
+        {
+            uiComponents.fadeImage.color = Color.Lerp(Color.black, Color.clear, a);
+        }, fadingTime, 0f, 1f).Run(() =>
+        {
+            uiComponents.fadeImage.enabled = false;
+        }).Start();
     }
 
 }
