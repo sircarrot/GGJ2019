@@ -14,10 +14,17 @@ public class BreakablePlatform : MonoBehaviour {
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (coroutineRunning) { return; }
-        if (collision.gameObject.tag != "Player") { return; }
+        Debug.Log("collide");
+        if (coroutineRunning) { return; } // Check if coroutine is running
+        if (collision.gameObject.tag != "Player") { return; } // Check if player is colliding
 
-        if (boxCollider2D == null) { boxCollider2D = GetComponent<BoxCollider2D>(); } 
+        // Check contact point
+        Vector3 contactPoint = collision.contacts[0].point;
+        Vector3 center = collision.collider.bounds.center;
+        bool bottom = contactPoint.y > center.y;
+        if (bottom) { return; }
+
+        if (boxCollider2D == null) { boxCollider2D = GetComponent<BoxCollider2D>(); }
 
         Debug.Log("Breaking Object: " + gameObject.name);
         coroutine = BreakAndRestorePlatform();
@@ -33,9 +40,10 @@ public class BreakablePlatform : MonoBehaviour {
 
         boxCollider2D.enabled = false;
 
+        // Play destroy animation
         yield return new WaitForSeconds(destroyAnimationDelay);
 
-
+        // Play repair animation
         yield return new WaitForSeconds(repairAnimationDelay);
 
         boxCollider2D.enabled = true;
