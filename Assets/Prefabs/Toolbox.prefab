@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf5553c5f3c0e649a6ad0eae7e240ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DialogueCSV: {fileID: 0}
+  DialogueCSV: {fileID: 4900000, guid: 2d5597b77f9c3834ea4806d3a68844af, type: 3}
 --- !u!114 &114837392790032106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,3 +116,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIPrefab: {fileID: 1942668232824486, guid: 5d873e3ea58a5db468273dcd74f89f9d, type: 2}
+  textSpeed: 40
+  textLetterPause: 1

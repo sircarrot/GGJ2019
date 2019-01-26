@@ -33,7 +33,7 @@ public class DialogueManager : MonoBehaviour, IManager
             {
                 dialogue += data[i];
             }
-            dialogue = dialogue.Trim('"', ' ');
+            dialogue = dialogue.Trim('"', ' ', '\r');
 
             dialogueDictionary.Add(id, dialogue);
         }

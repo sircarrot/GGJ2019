@@ -62,15 +62,16 @@ public class GameManager : MonoBehaviour, IManager
     {
         if (currentGameState == GameState.Dialogue)
         {
-            string dialogue = TryToGetDialogue();
-            if(dialogue != "")
-            {
-                uiManager.NextDialogue(dialogue);
-            }
-            else
-            {
-                EndTalkToNPC();
-            }
+            //string dialogue = TryToGetDialogue();
+            //if(dialogue != "")
+            //{
+            //    uiManager.NextDialogue(dialogue);
+            //}
+            //else
+            //{
+            //    EndTalkToNPC();
+            //}
+            TalkToNPC();
             return;
         }
 
@@ -124,8 +125,18 @@ public class GameManager : MonoBehaviour, IManager
             return;
         }
 
-        uiManager.OpenDialogue(dialogue);
-        currentGameState = GameState.Dialogue;
+        if (currentGameState == GameState.Dialogue)
+        {
+            uiManager.NextDialogue(dialogue);
+
+        }
+        else
+        {
+            uiManager.OpenDialogue(dialogue);
+            currentGameState = GameState.Dialogue;
+        }
+
+        lineNumber++;
     }
 
     public void EndTalkToNPC()
@@ -142,6 +153,7 @@ public class GameManager : MonoBehaviour, IManager
         string dialogueID = npcInRange.npcName + "_" + currentDialogueSequence.ToString() + "_" + lineNumber;
 
         string dialogue = dialogueManager.GetDialogue(dialogueID);
+        if (repeat) { return dialogue; }
         if (dialogue == "")
         {
             // End of a sequence
@@ -151,7 +163,7 @@ public class GameManager : MonoBehaviour, IManager
             }
             // Go back to first loop
             currentDialogueSequence = npcInRange.loopSequenceStart;
-            dialogue = TryToGetDialogue();
+            dialogue = TryToGetDialogue(true);
 
             if(dialogue == "")
             {

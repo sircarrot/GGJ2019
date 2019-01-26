@@ -227,8 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf87537fa081fa4cbeb9014a841d121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcFont: {fileID: 0}
   npcName: Shelley
-  currentDialogueSequence: 0
+  currentDialogueSequence: 1
   loopSequenceStart: 4
 --- !u!212 &212040746224002072
 SpriteRenderer:

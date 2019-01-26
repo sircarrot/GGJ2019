@@ -804,11 +804,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 114210093459627232, guid: d9cdb257fe83af5429bf4e84c0b2665f,
-        type: 2}
-      propertyPath: npcName
-      value: Shelley
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9cdb257fe83af5429bf4e84c0b2665f, type: 2}
   m_IsPrefabAsset: 0
