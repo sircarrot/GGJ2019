@@ -10,6 +10,13 @@ public class DialogueManager : MonoBehaviour, IManager
 
     private void PopulateDictionary()
     {
+        if (DialogueCSV == null)
+        {
+            Debug.LogError("No CSV File found!");
+            return;
+        }
+
+
         string[] records = DialogueCSV.text.Split('\n');
         int recordsSize = records.Length;
 
