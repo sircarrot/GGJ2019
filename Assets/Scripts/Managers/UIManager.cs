@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour, IManager {
     private IEnumerator DisplayTextCoroutine;
     private IEnumerator BubbleCoroutine;
     private string currentDialogueText;
+    private NPCController currentTalkingNPC;
 
     public void InitializeManager()
     {
@@ -188,6 +189,9 @@ public class UIManager : MonoBehaviour, IManager {
 
         currentlyOnDialogue = true;
         NextDialogue(dialogueText);
+
+        npc.StartAnimator();
+        this.currentTalkingNPC = npc;
     }
 
     public bool NextDialogue(string dialogueText)
@@ -211,6 +215,9 @@ public class UIManager : MonoBehaviour, IManager {
         StartCoroutine(BubbleCoroutine);
         //uiComponents.dialogueBubble.gameObject.SetActive(false);
         currentlyOnDialogue = false;
+        
+        currentTalkingNPC.StopAnimator();
+        this.currentTalkingNPC = null;
     }
 
     private IEnumerator BubbleAnimation(bool open)
