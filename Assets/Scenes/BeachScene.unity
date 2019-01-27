@@ -8811,21 +8811,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114996004066067120, guid: 9421fd86d43faca4e9878abf087a5637,
-        type: 2}
-      propertyPath: eyeMoveSpeed
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114996004066067120, guid: 9421fd86d43faca4e9878abf087a5637,
-        type: 2}
-      propertyPath: eyeMaxMoveDistance
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114996004066067120, guid: 9421fd86d43faca4e9878abf087a5637,
-        type: 2}
-      propertyPath: moveForce
-      value: 500
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9421fd86d43faca4e9878abf087a5637, type: 2}
   m_IsPrefabAsset: 0

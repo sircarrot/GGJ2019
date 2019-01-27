@@ -9,8 +9,10 @@ public class CharacterController : MonoBehaviour
 	public float moveForce = 500f;
     public Transform raycastSource;
     public Transform eyeTransform;
+    public Transform wheelTransform;
     public float eyeMaxMoveDistance = 0.2f;
     public float eyeMoveSpeed = 0.1f;
+    public float wheelRotationSpeed = 5f;
 	private static float groundCheckTolerance = 0.1f;
 	private new Rigidbody2D rigidbody2D;
 	private LayerMask groundLayer;
@@ -42,6 +44,7 @@ public class CharacterController : MonoBehaviour
         {
             this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(this.maxSpeed * (int) moveDirection);
         }
+        this.wheelTransform.Rotate(0, 0, -this.wheelRotationSpeed * (int) moveDirection);
     }
 
     public void Jump()
