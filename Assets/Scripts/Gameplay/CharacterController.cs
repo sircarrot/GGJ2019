@@ -40,10 +40,9 @@ public class CharacterController : MonoBehaviour
     public void MoveCharacter(MoveDirection moveDirection)
     {
         this.rigidbody2D.AddForce(new Vector2(this.moveForce * (int) moveDirection, 0f));
-        if (this.rigidbody2D.velocity.x < this.maxSpeed * (int) moveDirection)
-        {
-            this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(this.maxSpeed * (int) moveDirection);
-        }
+        var xSpeed = this.rigidbody2D.velocity.x;
+        xSpeed = Mathf.Clamp(xSpeed, -this.maxSpeed, this.maxSpeed);
+        this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(xSpeed);
         this.wheelTransform.Rotate(0, 0, -this.wheelRotationSpeed * (int) moveDirection);
     }
 
