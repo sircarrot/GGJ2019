@@ -6,9 +6,13 @@ public class CharacterController : MonoBehaviour
 {
 	public float maxSpeed = 0.5f;
 	public float jumpForce = 400f;
-	public float moveForce = 200f;
+	public float moveForce = 500f;
+    public Transform raycastSource;
+    public Transform eyeTransform;
+    public float eyeMaxMoveDistance = 0.2f;
+    public float eyeMoveSpeed = 0.1f;
 	private static float groundCheckTolerance = 0.1f;
-	private Rigidbody2D rigidbody2D;
+	private new Rigidbody2D rigidbody2D;
 	private LayerMask groundLayer;
     private int jumpCount;
     void Start()
@@ -20,13 +24,15 @@ public class CharacterController : MonoBehaviour
 
     void Update()
     {
-		this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(0);
-
-		if(Physics2D.Raycast(this.transform.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider != null)
+		if(Physics2D.Raycast(this.raycastSource.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider != null)
 		{
             this.jumpCount = 0;
         }
-		//Debug.DrawRay(this.transform.position, Vector2.down, Color.green);
+
+        var targetEyePosition = (Vector3)this.rigidbody2D.velocity.normalized * this.eyeMaxMoveDistance;
+        this.eyeTransform.localPosition = targetEyePosition * this.eyeMoveSpeed + this.eyeTransform.localPosition * (1 - this.eyeMoveSpeed);
+        
+		this.rigidbody2D.velocity = this.rigidbody2D.velocity.WithX(0);
     }
 
     public void MoveCharacter(MoveDirection moveDirection)
@@ -40,7 +46,7 @@ public class CharacterController : MonoBehaviour
 
     public void Jump()
 	{
-		if(Physics2D.Raycast(this.transform.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider == null)
+		if(Physics2D.Raycast(this.raycastSource.position, Vector2.down, CharacterController.groundCheckTolerance, this.groundLayer).collider == null)
 		{
             if(this.jumpCount == 0)
             {
