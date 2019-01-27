@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour, IManager {
     private Transform cameraTransform;
     private Bounds cameraBox;
     private static float cameraSpeed = 0.1f; //0-1, 1 mean instant
+    private static Vector2 cameraOffset = new Vector2(0f, 2f);
 
     [Header("Arrow Animation")]
     private Transform playerTransform;
@@ -73,7 +74,7 @@ public class UIManager : MonoBehaviour, IManager {
 
     private void UpdateCamera()
     {
-        cameraTransform.position = playerTransform.position * UIManager.cameraSpeed + cameraTransform.position * (1 - UIManager.cameraSpeed);
+        cameraTransform.position = (playerTransform.position + (Vector3)UIManager.cameraOffset) * UIManager.cameraSpeed + cameraTransform.position * (1 - UIManager.cameraSpeed);
         cameraTransform.position = cameraTransform.position.WithZ(-10f);
         if(cameraTransform.position.x < (cameraBox.min.x + cam.orthographicSize * cam.aspect))
         {
