@@ -224,6 +224,12 @@ Prefab:
       propertyPath: m_Name
       value: NPC
       objectReference: {fileID: 0}
+    - target: {fileID: 114210093459627232, guid: d9cdb257fe83af5429bf4e84c0b2665f,
+        type: 2}
+      propertyPath: npcFont
+      value: 
+      objectReference: {fileID: 12800000, guid: 852cb4ceb6459b34380453d1a6a10ed0,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9cdb257fe83af5429bf4e84c0b2665f, type: 2}
   m_IsPrefabAsset: 0
@@ -625,6 +631,12 @@ MonoBehaviour:
   maxSpeed: 0.5
   jumpForce: 400
   moveForce: 200
+  raycastSource: {fileID: 0}
+  eyeTransform: {fileID: 0}
+  wheelTransform: {fileID: 0}
+  eyeMaxMoveDistance: 0.2
+  eyeMoveSpeed: 0.1
+  wheelRotationSpeed: 5
 --- !u!1 &1013795228
 GameObject:
   m_ObjectHideFlags: 0
