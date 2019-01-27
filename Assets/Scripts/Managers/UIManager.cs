@@ -176,6 +176,8 @@ public class UIManager : MonoBehaviour, IManager {
             return;
         }
 
+        
+
         uiComponents.dialogueBubble.gameObject.SetActive(true);
         uiComponents.dialogueBubble.transform.position = cam.WorldToScreenPoint(npcTransform.position);
         //uiComponents.dialogueBubble.transform.position += new Vector3(0, 250, 0);
@@ -212,11 +214,11 @@ public class UIManager : MonoBehaviour, IManager {
     private IEnumerator BubbleAnimation(bool open)
     {
         Transform toAnimate = uiComponents.dialogueBubble.transform;
-        float scale = (open) ? 0 : 1.5f;
+        float scale = (open) ? 0 : 0.8f;
         int direction = (open) ? 1 : -1;
 
         float scalePerFrame = 1.5f / bubbleFrameRate;
-        float vertTranslatePerFrame = 250f / bubbleFrameRate;
+        float vertTranslatePerFrame = 450f / bubbleFrameRate;
 
         for(int i = 0; i < bubbleFrameRate; ++i)
         {
