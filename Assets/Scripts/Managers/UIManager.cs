@@ -26,9 +26,11 @@ public class UIManager : MonoBehaviour, IManager {
     [Header("Text Animation")]
     [SerializeField] private float textSpeed = 10f;
     [SerializeField] private float textLetterPause = 1f;
+    [SerializeField] private float bubbleFrameRate = 2f;
     private bool currentlyOnDialogue = false;
     private bool displayingText = false;
     private IEnumerator DisplayTextCoroutine;
+    private IEnumerator BubbleCoroutine;
     private string currentDialogueText;
 
     public void InitializeManager()
@@ -43,7 +45,7 @@ public class UIManager : MonoBehaviour, IManager {
             CentralizerCamera();
             UpdateCameraBox();
         };
-        DontDestroyOnLoad(this.cameraTransform.gameObject);
+        DontDestroyOnLoad(cameraTransform.gameObject);
     }
 
     public void SetPlayerTransform(Transform playerTransform)
@@ -165,7 +167,7 @@ public class UIManager : MonoBehaviour, IManager {
     #endregion Arrow NPC
 
     #region Dialogue
-    public void OpenDialogue(string dialogueText)
+    public void OpenDialogue(string dialogueText, Transform npcTransform)
     {
         if(currentlyOnDialogue)
         {
@@ -174,6 +176,11 @@ public class UIManager : MonoBehaviour, IManager {
         }
 
         uiComponents.dialogueBubble.gameObject.SetActive(true);
+        uiComponents.dialogueBubble.transform.position = cam.WorldToScreenPoint(npcTransform.position);
+        //uiComponents.dialogueBubble.transform.position += new Vector3(0, 250, 0);
+        BubbleCoroutine = BubbleAnimation(true);
+        StartCoroutine(BubbleCoroutine);
+
         currentlyOnDialogue = true;
         NextDialogue(dialogueText);
     }
@@ -195,8 +202,33 @@ public class UIManager : MonoBehaviour, IManager {
 
     public void CloseDialogue()
     {
-        uiComponents.dialogueBubble.gameObject.SetActive(false);
+        BubbleCoroutine = BubbleAnimation(false);
+        StartCoroutine(BubbleCoroutine);
+        //uiComponents.dialogueBubble.gameObject.SetActive(false);
         currentlyOnDialogue = false;
+    }
+
+    private IEnumerator BubbleAnimation(bool open)
+    {
+        Transform toAnimate = uiComponents.dialogueBubble.transform;
+        float scale = (open) ? 0 : 1.5f;
+        int direction = (open) ? 1 : -1;
+
+        float scalePerFrame = 1.5f / bubbleFrameRate;
+        float vertTranslatePerFrame = 250f / bubbleFrameRate;
+
+        for(int i = 0; i < bubbleFrameRate; ++i)
+        {
+            scale += direction * scalePerFrame;
+            toAnimate.localScale = new Vector3(scale, scale, 1);
+            toAnimate.position += new Vector3(0, vertTranslatePerFrame, 0);
+            yield return null;
+        }
+
+        //if (open)
+        //{
+        //    StartCoroutine(DisplayTextCoroutine);
+        //}
     }
 
     private IEnumerator TextAnimation(string dialogueText)

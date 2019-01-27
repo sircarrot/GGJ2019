@@ -10,13 +10,15 @@ public class NPCController : MonoBehaviour {
     public int currentDialogueSequence = 0;
     public int loopSequenceStart = 4;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Call On Trigger");
         Toolbox.Instance.GetManager<GameManager>().SetNPC(this);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    protected virtual void OnTriggerExit2D(Collider2D collision)
     {
+        Debug.Log("Exit On Trigger");
         Toolbox.Instance.GetManager<GameManager>().RemoveNPC();
     }
 }

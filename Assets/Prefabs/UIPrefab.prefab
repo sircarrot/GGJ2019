@@ -263,8 +263,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: I don't know about that, my dude. Seems like you've come from a long way
-    away.
+  m_Text: 
 --- !u!222 &222219776071436760
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -342,7 +341,7 @@ RectTransform:
   m_GameObject: {fileID: 1842890039593488}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children:
   - {fileID: 224338188226203966}
   m_Father: {fileID: 224035520678744484}

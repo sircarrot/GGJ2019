@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour, IManager
     [Header("Talk to NPC")]
     private DialogueManager dialogueManager;
     private NPCController npcInRange = null;
+    private List<NPCController> npcInRangeList = new List<NPCController>();
+    private InteractType interactType = InteractType.None;
     private int lineNumber = 1;
 
     public void InitializeManager()
@@ -62,16 +64,13 @@ public class GameManager : MonoBehaviour, IManager
     {
         if (currentGameState == GameState.Dialogue)
         {
-            //string dialogue = TryToGetDialogue();
-            //if(dialogue != "")
-            //{
-            //    uiManager.NextDialogue(dialogue);
-            //}
-            //else
-            //{
-            //    EndTalkToNPC();
-            //}
-            TalkToNPC();
+            switch(keyCode)
+            {
+                case KeyCode.F:
+                case KeyCode.Space:
+                    TalkToNPC();
+                    break;
+            }
             return;
         }
 
@@ -94,9 +93,13 @@ public class GameManager : MonoBehaviour, IManager
 
                 //Interact
             case KeyCode.F:
-                if(npcInRange != null)
+                switch(interactType)
                 {
-                    TalkToNPC();
+                    case InteractType.SingleNPC:
+                    //case InteractType.MultipleNPC:
+                        if (npcInRange != null)
+                            TalkToNPC();
+                        break;
                 }
                 break;
         }
@@ -106,18 +109,21 @@ public class GameManager : MonoBehaviour, IManager
     public void SetNPC(NPCController npc)
     {
         npcInRange = npc;
+        interactType = InteractType.SingleNPC;
     }
 
     public void RemoveNPC()
     {
         npcInRange = null;
+        interactType = InteractType.None;
     }
 
     public void TalkToNPC()
     {
-        Debug.Log(npcInRange);
-
         string dialogue = TryToGetDialogue();
+
+        Debug.Log(dialogue);
+        Debug.Log(currentGameState);
 
         if (dialogue == "")
         {
@@ -132,7 +138,7 @@ public class GameManager : MonoBehaviour, IManager
         }
         else
         {
-            uiManager.OpenDialogue(dialogue);
+            uiManager.OpenDialogue(dialogue, npcInRange.transform);
             currentGameState = GameState.Dialogue;
         }
 
@@ -152,6 +158,7 @@ public class GameManager : MonoBehaviour, IManager
         int currentDialogueSequence = npcInRange.currentDialogueSequence;
         if (repeat)
         {
+            if (currentDialogueSequence < npcInRange.loopSequenceStart) { return ""; }
             currentDialogueSequence = npcInRange.loopSequenceStart;
             npcInRange.currentDialogueSequence = npcInRange.loopSequenceStart;
         }
@@ -190,3 +197,9 @@ public class GameManager : MonoBehaviour, IManager
 
 }
 
+public enum InteractType
+{
+    None,
+    SingleNPC,
+    MultipleNPC
+}
