@@ -167,7 +167,7 @@ public class UIManager : MonoBehaviour, IManager {
     #endregion Arrow NPC
 
     #region Dialogue
-    public void OpenDialogue(string dialogueText, Transform npcTransform)
+    public void OpenDialogue(string dialogueText, NPCController npc)
     {
         if(currentlyOnDialogue)
         {
@@ -175,11 +175,13 @@ public class UIManager : MonoBehaviour, IManager {
             return;
         }
 
-        
+        uiComponents.dialogueName.text = npc.npcName;
+        uiComponents.dialogueName.font = npc.npcFont;
+        uiComponents.dialogueTextBox.font = npc.npcFont;
 
         uiComponents.dialogueBubble.gameObject.SetActive(true);
-        uiComponents.dialogueBubble.transform.position = cam.WorldToScreenPoint(npcTransform.position);
-        //uiComponents.dialogueBubble.transform.position += new Vector3(0, 250, 0);
+        uiComponents.dialogueBubble.transform.position = cam.WorldToScreenPoint(npc.transform.position);
+
         BubbleCoroutine = BubbleAnimation(true);
         StartCoroutine(BubbleCoroutine);
 
@@ -213,11 +215,11 @@ public class UIManager : MonoBehaviour, IManager {
     private IEnumerator BubbleAnimation(bool open)
     {
         Transform toAnimate = uiComponents.dialogueBubble.transform;
-        float scale = (open) ? 0 : 0.8f;
+        float scale = (open) ? 0 : 1f;
         int direction = (open) ? 1 : -1;
 
-        float scalePerFrame = 1.5f / bubbleFrameRate;
-        float vertTranslatePerFrame = 450f / bubbleFrameRate;
+        float scalePerFrame = 1f / bubbleFrameRate;
+        float vertTranslatePerFrame = 350f / bubbleFrameRate;
 
         for(int i = 0; i < bubbleFrameRate; ++i)
         {

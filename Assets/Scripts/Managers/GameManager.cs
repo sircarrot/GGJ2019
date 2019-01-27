@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour, IManager
         }
         else
         {
-            uiManager.OpenDialogue(dialogue, npcInRange.transform);
+            uiManager.OpenDialogue(dialogue, npcInRange);
             currentGameState = GameState.Dialogue;
         }
 
