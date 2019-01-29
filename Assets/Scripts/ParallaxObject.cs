@@ -10,11 +10,11 @@ public class ParallaxObject : MonoBehaviour
 	public float moveSpeed = 1f;
 	private void Start()
 	{
-		this.image = this.GetComponent<Image>();
+		image = GetComponent<Image>();
         cameraTransform =  GameObject.Find("Main Camera").transform;
 	}
 	private void Update()
 	{
-		this.image.rectTransform.localPosition = this.image.rectTransform.localPosition.WithX(cameraTransform.position.x * this.moveSpeed);
+		image.rectTransform.localPosition = image.rectTransform.localPosition.WithX(cameraTransform.position.x * moveSpeed);
 	}
 }
